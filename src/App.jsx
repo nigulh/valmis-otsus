@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 Date.prototype.addDays = function(days) {
@@ -18,13 +19,52 @@ Date.prototype.displayString = function() {
   return currentDate.toLocaleString("et-EE", options);
 }
 
+// https://www.pierrehedkvist.com/posts/react-state-url
+function useStateParams(
+  initialState, //: T,
+  paramsName, //: string,
+  serialize, //: (state: T) => string,
+  deserialize, //: (state: string) => T
+)//: [T, (state: T) => void]
+{
+  const navigate = useNavigate();
+  const search = new URLSearchParams(window.location.search);
+
+  const existingValue = search.get(paramsName);
+  const [state, setState] = useState(
+    existingValue ? deserialize(existingValue) : initialState
+  );
+
+  useEffect(() => {
+    // Updates state when user navigates backwards or forwards in browser history
+    if (existingValue && deserialize(existingValue) !== state) {
+      setState(deserialize(existingValue));
+    }
+  }, [existingValue]);
+
+  const onChange = (s) => {
+    setState(s);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set(paramsName, serialize(s));
+    const pathname = window.location.pathname;
+    navigate(pathname + "?" + searchParams.toString());
+  };
+
+  return [state, onChange];
+}
+
 //const prefix = !true ? 'https://cors-anywhere.herokuapp.com/' : '';
 //const apiUrl = prefix + "https://xn--riigiphad-v9a.ee/en?output=json";
 const apiUrl = "pyhad.json";
 
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useStateParams(
+    30,
+    'ootan',
+    (s) => s.toString(),
+    (s) => (Number(s) !== Number.NaN ? Number(s) : 30)
+  );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
   const [okDate, setOkDate] = useState("");
@@ -45,9 +85,9 @@ function App() {
   const generateDivs = (start) => {
     if (!holidays) return [];
     const newDivs = [];
-    let count = start;
+    let count = 0;
     while (count <= 100) {
-      const date = new Date().addDays(count);
+      const date = new Date().addDays(start + count);
       const formatted = date.isoString();
       const row = holidays.find(x => x[0] === formatted) || [];
       const label = row[1] || [0, 6].includes(date.getDay()) && date.toLocaleString('et-EE', { weekday: "long"});
@@ -59,7 +99,7 @@ function App() {
         break;
       }
       newDivs.push(<div key={count}>{label}: {local}</div>);
-      count +=1;
+      count += 1;
     }
     return newDivs;
   }
@@ -68,8 +108,8 @@ function App() {
   return (
     <>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          Oota {count} päeva
+        <button onClick={() => setCount(count + 1)}>
+          Ootan {count} päeva
         </button>
       </div>
       <div className="read-the-docs">
