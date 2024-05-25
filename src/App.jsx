@@ -18,8 +18,9 @@ Date.prototype.displayString = function() {
   return currentDate.toLocaleString("et-EE", options);
 }
 
-const prefix = !true ? 'https://cors-anywhere.herokuapp.com/' : '';
-const apiUrl = prefix + "https://xn--riigiphad-v9a.ee/en?output=json";
+//const prefix = !true ? 'https://cors-anywhere.herokuapp.com/' : '';
+//const apiUrl = prefix + "https://xn--riigiphad-v9a.ee/en?output=json";
+const apiUrl = "pyhad.json";
 
 
 function App() {
