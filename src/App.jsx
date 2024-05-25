@@ -18,24 +18,27 @@ Date.prototype.displayString = function() {
   return currentDate.toLocaleString("et-EE", options);
 }
 
-const prefix = true ? 'https://cors-anywhere.herokuapp.com/' : '';
+const prefix = !true ? 'https://cors-anywhere.herokuapp.com/' : '';
 const apiUrl = prefix + "https://xn--riigiphad-v9a.ee/en?output=json";
 
 
 function App() {
   const [count, setCount] = useState(0);
-  const [holidays, setHolidays] = useState(null);
+  const [holidays, setHolidays] = useState([]);
+  const [holidayState, setHolidayState] = useState("Laen puhkuseid");
   const [okDate, setOkDate] = useState("");
 
   useEffect(() => {
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(response => response.filter(x => ['1', '2'].includes(x.kind_id)).map(x => [x.date, x.title, x.kind_id]))
-        .then(response => setHolidays(response))
-        .catch(x => {
-          console.error('paha', x)
-        })
-      ;
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(response => response.filter(x => ['1', '2'].includes(x.kind_id)).map(x => [x.date, x.title, x.kind_id]))
+      .then(response => setHolidays(response))
+      .then(() => setHolidayState(""))
+      .catch(x => {
+        setHolidayState("Puhkuste laadimine ebaõnnestus");
+        console.error('paha', x)
+      })
+    ;
   }, []);
 
   const generateDivs = (start) => {
@@ -70,6 +73,7 @@ function App() {
       </div>
       <div className="read-the-docs">
         {generateDivs(count)}
+        {holidayState}
       </div>
       <div><span className="read-the-docs">Järgmine tööpäev:</span> <span className="important">{okDate}</span></div>
     </>
