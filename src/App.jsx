@@ -63,7 +63,7 @@ function App() {
     30,
     'ootan',
     (s) => s.toString(),
-    (s) => (Number(s) !== Number.NaN ? Number(s) : 30)
+    (s) => (!isNaN(Number(s)) ? Number(s) : 30)
   );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
