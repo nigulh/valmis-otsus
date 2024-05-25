@@ -67,7 +67,7 @@ function App() {
   );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
-  const [okDate, setOkDate] = useState("");
+  let okDate = "";
 
   useEffect(() => {
     fetch(apiUrl)
@@ -93,9 +93,7 @@ function App() {
       const label = row[1] || [0, 6].includes(date.getDay()) && date.toLocaleString('et-EE', { weekday: "long"});
       const local = date.displayString();
       if (!label) {
-        if (okDate !== local) {
-          setOkDate(local);
-        }
+        okDate = local;
         break;
       }
       newDivs.push(<div key={count}>{label}: {local}</div>);
