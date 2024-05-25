@@ -102,6 +102,7 @@ function App() {
     return newDivs;
   }
 
+  const notLoaded = holidays.find(x => x[0] > (new Date().addDays(count).isoString())) ? "" : "Pühade graafik lõpeb varem ära";
 
   return (
     <>
@@ -113,6 +114,7 @@ function App() {
       <div className="read-the-docs">
         {generateDivs(count)}
         {holidayState}
+        {notLoaded}
       </div>
       <div><span className="read-the-docs">Järgmine tööpäev:</span> <span className="important">{okDate}</span></div>
     </>
