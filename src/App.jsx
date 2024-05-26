@@ -1,6 +1,11 @@
 import {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import DatePicker from "react-datepicker";
 import './App.css'
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { et } from 'date-fns/locale/et';
+registerLocale('et', et)
 
 Date.prototype.addDays = function(days) {
   let date = new Date(this.valueOf());
@@ -67,6 +72,7 @@ function App() {
   );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
+  const [startDate, setStartDate] = useState(new Date());
   let okDate = "";
 
   useEffect(() => {
@@ -82,12 +88,12 @@ function App() {
     ;
   }, []);
 
-  const generateDivs = (start) => {
+  const generateDivs = (startDate, skip) => {
     if (!holidays) return [];
     const newDivs = [];
     let count = 0;
     while (count <= 100) {
-      const date = new Date().addDays(start + count);
+      const date = startDate.addDays(skip + count);
       const formatted = date.isoString();
       const row = holidays.find(x => x[0] === formatted) || [];
       const label = row[1] || [0, 6].includes(date.getDay()) && date.toLocaleString('et-EE', { weekday: "long"});
@@ -102,19 +108,30 @@ function App() {
     return newDivs;
   }
 
-  const notLoaded = holidays.find(x => x[0] > (new Date().addDays(count).isoString())) ? "" : "Pühade graafik lõpeb varem ära";
+  const notLoaded = holidays.find(x => x[0] > (startDate.addDays(count + 100).isoString())) ? "" : "Pühade graafik lõpeb varem ära";
 
   return (
     <>
       <div className="card">
+        <label>Alguskuupäev: </label>
+        <DatePicker
+          locale="et"
+          dateFormat="dd.MM.yyyy"
+          size="10"
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+        />
+        <button onClick={() => setStartDate(startDate.addDays(-1))}>-</button>
+        <button onClick={() => setStartDate(startDate.addDays(1))}>+</button>
+      </div>
+      <div className="card">
+        <label>Vahe päevades: </label>
+        <input type="number" min="-9999" max="9999" value={count} onChange={e => setCount(e.target.value)}/>
         <button onClick={() => setCount(count - 1)}>-</button>
         <button onClick={() => setCount(count + 1)}>+</button>
-        <br/>
-        <label>Vahe päevades: </label>
-        <input type="number" value={count} onChange={e => setCount(e.target.value)}/>
       </div>
       <div className="read-the-docs">
-        {generateDivs(count)}
+        {generateDivs(startDate, count)}
         {holidayState}
         {notLoaded}
       </div>

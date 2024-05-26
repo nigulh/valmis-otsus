@@ -37,7 +37,7 @@
   padding: 2em;
 }
 
-.read-the-docs {
+.read-the-docs, label {
   color: #888;
   min-height: 10ex;
 }
