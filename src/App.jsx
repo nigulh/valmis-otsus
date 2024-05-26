@@ -61,7 +61,7 @@ const apiUrl = "pyhad.json";
 function App() {
   const [count, setCount] = useStateParams(
     30,
-    'ootan',
+    'skip',
     (s) => s.toString(),
     (s) => (!isNaN(Number(s)) ? Number(s) : 30)
   );
@@ -107,9 +107,11 @@ function App() {
   return (
     <>
       <div className="card">
-        <button onClick={() => setCount(count + 1)}>
-          Ootan {count} päeva
-        </button>
+        <button onClick={() => setCount(count - 1)}>-</button>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        <br/>
+        <label>Vahe päevades: </label>
+        <input type="number" value={count} onChange={e => setCount(e.target.value)}/>
       </div>
       <div className="read-the-docs">
         {generateDivs(count)}
