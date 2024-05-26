@@ -73,13 +73,18 @@ const apiUrl = "pyhad.json";
 function App() {
   const [count, setCount] = useStateParams(
     30,
-    'skip',
+    'skipDays',
     (s) => s.toString(),
     (s) => (!isNaN(Number(s)) ? Number(s) : 30)
   );
+  const [startDate, setStartDate] = useStateParams(
+    new Date(),
+    'startDate',
+    (s) => s.isoString(),
+    (s) => (new Date(s))
+  );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
-  const [startDate, setStartDate] = useState(new Date());
   let okDate = "";
 
   useEffect(() => {
