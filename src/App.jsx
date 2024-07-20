@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import './App.css'
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { registerLocale } from  "react-datepicker";
 import { et } from 'date-fns/locale/et';
 registerLocale('et', et)
 import { Portal } from "react-overlays";
