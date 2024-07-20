@@ -32,7 +32,7 @@ const Coffee = () => {
       </div>
       <div className="card">
         <div>
-          { stateType === "Paypal" && <button onClick={() => window.location.href = 'https://www.paypal.com/paypalme/nigulh/2'}><img src="/pp-logo-100px.png" border="0" alt="PayPal Logo"/></button>}
+          { stateType === "Paypal" && <button onClick={() => window.location.href = 'https://www.paypal.com/paypalme/nigulh/2'}><img src="pp-logo-100px.png" border="0" alt="PayPal Logo"/></button>}
           { stateType === "Gmail" && <button onClick={() => window.location.href = 'mailto:hendrik.nigul+otsus@gmail.com?subject=Tagasiside'}>✉️ E-postiga</button>}
           <button onClick={() => handleButtonClick()}>{labelNext}</button>
           { stateType === "Back" && <button onClick={() => navigate(-1)}><span className="important">𐄷</span> Valmis otsus</button> }
