@@ -176,7 +176,10 @@ function App() {
         {holidayState}
         {notLoaded}
       </div>
-      <div><span className="read-the-docs">Järgmine tööpäev:</span> <span className="important" style={{display: "inline-block"}}>{okDate}</span></div>
+      <div className="card">
+        <span className="read-the-docs">Järgmine tööpäev:</span>
+        <span className="important" style={{display: "inline-block"}}>{okDate}</span>
+      </div>
     </>
   )
 }
