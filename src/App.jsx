@@ -158,21 +158,25 @@ function App() {
             </svg>
           }
         />
-        <button onClick={() => setStartDate(startDate.addDays(-1))}>-</button>
-        <button onClick={() => setStartDate(startDate.addDays(1))}>+</button>
+        <div style={{ display: "inline-block" }}>
+          <button onClick={() => setStartDate(startDate.addDays(-1))}>-</button>
+          <button onClick={() => setStartDate(startDate.addDays(1))}>+</button>
+        </div>
       </div>
       <div className="card">
         <label>Vahe päevades: </label>
-        <input type="number" min="-9999" max="9999" value={count} onChange={e => setCount(e.target.value)}/>
-        <button onClick={() => setCount(count - 1)}>-</button>
-        <button onClick={() => setCount(count + 1)}>+</button>
+        <input type="number" min="-9999" max="9999" value={count} onChange={e => setCount(Number(e.target.value))}/>
+        <div style={{ display: "inline-block" }}>
+          <button onClick={() => setCount(count - 1)}>-</button>
+          <button onClick={() => setCount(count + 1)}>+</button>
+        </div>
       </div>
       <div className="read-the-docs">
         {generateDivs(startDate, count)}
         {holidayState}
         {notLoaded}
       </div>
-      <div><span className="read-the-docs">Järgmine tööpäev:</span> <span className="important">{okDate}</span></div>
+      <div><span className="read-the-docs">Järgmine tööpäev:</span> <span className="important" style={{display: "inline-block"}}>{okDate}</span></div>
     </>
   )
 }
