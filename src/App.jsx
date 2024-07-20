@@ -58,8 +58,7 @@ function useStateParams(
     setState(s);
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set(paramsName, serialize(s));
-    const pathname = window.location.pathname;
-    navigate(pathname + "?" + searchParams.toString());
+    navigate("/?" + searchParams.toString());
   };
 
   return [state, onChange];
