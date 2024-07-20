@@ -5,7 +5,7 @@ import './index.css'
 import Coffee from "./Coffee.jsx";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/otsus">
+  <BrowserRouter basename="/otsus/">
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/coffee" element={<Coffee/> } />
