@@ -85,6 +85,7 @@ function App() {
   );
   const [holidays, setHolidays] = useState([]);
   const [holidayState, setHolidayState] = useState("Laen puhkuseid");
+  const navigate = useNavigate();
   let okDate = "";
 
   useEffect(() => {
@@ -180,6 +181,7 @@ function App() {
         <span className="read-the-docs">Järgmine tööpäev:</span>
         <span className="important" style={{display: "inline-block"}}>{okDate}</span>
       </div>
+      <button onClick={() => navigate('/coffee')}>☕️</button>
     </>
   )
 }
